@@ -13,7 +13,6 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.6
   graphql_flutter: ^5.1.2
-  supabase_flutter: ^2.5.8
   uuid: ^3.0.7
 
 dev_dependencies:
