@@ -12,7 +12,8 @@ class FilmTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        contentPadding: const EdgeInsets.all(0),
+        contentPadding: const EdgeInsets.all(8),
+        tileColor: Colors.grey[200],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

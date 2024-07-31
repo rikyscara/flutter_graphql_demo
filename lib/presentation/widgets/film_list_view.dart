@@ -12,14 +12,19 @@ class FilmListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: films.length,
-      itemBuilder: (context, index) {
-        return FilmTile(
-          film: films[index],
-          onDelete: context.read<FilmCubit>().deleteFilm,
-        );
-      },
+    return Expanded(
+      child: ListView.separated(
+        itemCount: films.length,
+        itemBuilder: (context, index) {
+          return FilmTile(
+            film: films[index],
+            onDelete: context.read<FilmCubit>().deleteFilm,
+          );
+        },
+        separatorBuilder: (context, index) {
+          return const Divider(thickness: 1, height: 0);
+        },
+      ),
     );
   }
 }

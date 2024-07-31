@@ -1,24 +1,3 @@
-// const String getAllFilmsQuery = r'''
-//   query Query {
-//     allFilms {
-//       films {
-//         title
-//         director
-//         releaseDate
-//         speciesConnection {
-//           species {
-//             name
-//             classification
-//             homeworld {
-//               name
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// ''';
-
 import 'package:flutter_graphql_demo/domain/film.dart';
 
 const String getAllFilmsQuery = '''

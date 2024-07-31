@@ -14,12 +14,14 @@ class FilmFormFields extends StatefulWidget {
 }
 
 class _FilmFormFieldsState extends State<FilmFormFields> {
+  final _formKey = GlobalKey<FormState>();
   final _filmTitleController = TextEditingController();
   final _filmDirectorController = TextEditingController();
   final _filmReleaseDateController = TextEditingController();
 
   @override
   void dispose() {
+    _formKey.currentState?.dispose();
     _filmTitleController.dispose();
     _filmDirectorController.dispose();
     _filmReleaseDateController.dispose();
@@ -35,38 +37,53 @@ class _FilmFormFieldsState extends State<FilmFormFields> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _filmTitleController,
-          decoration: _inputDecoration("Title"),
-        ),
-        TextField(
-          controller: _filmDirectorController,
-          decoration: _inputDecoration("Director"),
-        ),
-        TextField(
-          controller: _filmReleaseDateController,
-          decoration: _inputDecoration("Release Date"),
-        ),
-        const SizedBox(height: 16),
-        AddFilmButton(
-          onPressed: () {
-            context.read<FilmCubit>().upsertFilm(
-                  Film(
-                    id: const Uuid().v4(),
-                    title: _filmTitleController.text,
-                    director: _filmDirectorController.text,
-                    releaseDate: _filmReleaseDateController.text,
-                  ),
-                  false,
-                );
-            _filmTitleController.clear();
-            _filmDirectorController.clear();
-            _filmReleaseDateController.clear();
-          },
-        ),
-      ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _filmTitleController,
+            decoration: _inputDecoration("Title"),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter a title';
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            controller: _filmDirectorController,
+            decoration: _inputDecoration("Director's Name"),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter director\'s name';
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            controller: _filmReleaseDateController,
+            decoration: _inputDecoration("Release Date"),
+          ),
+          const SizedBox(height: 16),
+          AddFilmButton(
+            onPressed: () {
+              final formIsValid = _formKey.currentState?.validate() ?? false;
+              formIsValid
+                  ? context.read<FilmCubit>().upsertFilm(
+                        Film(
+                          id: const Uuid().v4(),
+                          title: _filmTitleController.text,
+                          director: _filmDirectorController.text,
+                          releaseDate: _filmReleaseDateController.text,
+                        ),
+                        false,
+                      )
+                  : null;
+            },
+          ),
+        ],
+      ),
     );
   }
 }

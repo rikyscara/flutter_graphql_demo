@@ -43,10 +43,20 @@ class _FilmListState extends State<FilmList> {
           child: Scaffold(
             floatingActionButton: FloatingActionButton(
               onPressed: _showBottomSheet,
-              child: Icon(
-                  _bottomSheetController != null ? Icons.close : Icons.add),
+              child: const Icon(Icons.add),
             ),
-            body: FilmListView(films: state.films),
+            body: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    "Stored Films",
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ),
+                FilmListView(films: state.films),
+              ],
+            ),
           ),
         );
       },
